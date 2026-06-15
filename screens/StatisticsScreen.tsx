@@ -2,6 +2,7 @@ import { useCallback, useState } from 'react';
 import { ActivityIndicator, Modal, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import { APIDataReader } from '../APIDataReader';
+import { useLanguage } from '../context/LanguageContext';
 
 type LastUpdateRow = {
   sensorId: string;
@@ -231,6 +232,7 @@ function parseLastUpdateRows(payload: unknown): LastUpdateRow[] {
 }
 
 export default function StatisticsScreen() {
+  const { t } = useLanguage();
   const [rows, setRows] = useState<LastUpdateRow[]>([]);
   const [totalSensors, setTotalSensors] = useState<number | null>(null);
   const [totalMeasurements, setTotalMeasurements] = useState<number | null>(null);

@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react';
 import { Alert, Image, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import * as ImagePicker from 'expo-image-picker';
+import { useLanguage } from '../context/LanguageContext';
 
 type JournalEntry = {
   id: string;
@@ -28,6 +29,7 @@ const INITIAL_ENTRIES: JournalEntry[] = [
 ];
 
 export default function JournalScreen() {
+  const { t } = useLanguage();
   const [entries, setEntries] = useState<JournalEntry[]>(INITIAL_ENTRIES);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
@@ -87,24 +89,24 @@ export default function JournalScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Journal</Text>
-      <Text style={styles.description}>Create and track your ARCA field notes.</Text>
+      <Text style={styles.title}>{t('journal')}</Text>
+      <Text style={styles.description}>{t('createTrackNotes')}</Text>
 
       <View style={styles.formCard}>
-        <Text style={styles.inputLabel}>Title</Text>
+        <Text style={styles.inputLabel}>{t('titleLabel')}</Text>
         <TextInput
           value={title}
           onChangeText={setTitle}
-          placeholder="Entry title"
+          placeholder={t('entryTitle')}
           style={styles.input}
           placeholderTextColor="#8aa0a8"
         />
 
-        <Text style={styles.inputLabel}>Description</Text>
+        <Text style={styles.inputLabel}>{t('descriptionLabel')}</Text>
         <TextInput
           value={content}
           onChangeText={setContent}
-          placeholder="Write your observation..."
+          placeholder={t('writeObservation')}
           multiline
           textAlignVertical="top"
           style={[styles.input, styles.multilineInput]}
@@ -119,12 +121,12 @@ export default function JournalScreen() {
             accessibilityLabel="Create journal entry"
             style={({ pressed }) => [styles.createButton, pressed && styles.createButtonPressed]}
           >
-            <Text style={styles.createButtonText}>Create Entry</Text>
+            <Text style={styles.createButtonText}>{t('createEntry')}</Text>
           </Pressable>
 
           <Pressable
             onPress={pickMedia}
-            accessibilityLabel="Add photo or video"
+            accessibilityLabel={t('addMedia')}
             style={({ pressed }) => [styles.mediaButton, pressed && styles.mediaButtonPressed]}
           >
             {mediaUri ? (

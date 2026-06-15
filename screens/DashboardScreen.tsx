@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Animated, Easing, Image, ImageBackground, Pressable, StyleSheet, Text, View } from 'react-native';
+import { useLanguage } from '../context/LanguageContext';
 
 const logoSource = require('../assets/Logo_ interreg_ARCA.png');
 
@@ -8,9 +9,26 @@ type DashboardScreenProps = {
 };
 
 export default function DashboardScreen({ onSerbiaFlagPress }: DashboardScreenProps) {
+  const { setLanguage } = useLanguage();
   const scrollY = useRef(new Animated.Value(0)).current;
   const [scrollViewportHeight, setScrollViewportHeight] = useState(0);
   const [scrollTextHeight, setScrollTextHeight] = useState(0);
+
+  const flagLanguageMap: Record<string, any> = {
+    italy: 'it',
+    greece: 'el',
+    croatia: 'hr',
+    albania: 'sq',
+    montenegro: 'sr',
+    serbia: 'sr',
+  };
+
+  const handleFlagPress = (flagName: string) => {
+    const language = flagLanguageMap[flagName];
+    if (language) {
+      setLanguage(language);
+    }
+  };
 
   useEffect(() => {
     if (!scrollViewportHeight || !scrollTextHeight) {
@@ -94,14 +112,24 @@ export default function DashboardScreen({ onSerbiaFlagPress }: DashboardScreenPr
 
         <View style={styles.flagsContainer}>
           <View style={styles.flagsRow}>
-            <Image source={require('../assets/flags/Italy.png')} style={styles.flagImage} resizeMode="contain" />
-            <Image source={require('../assets/flags/Greece.png')} style={styles.flagImage} resizeMode="contain" />
-            <Image source={require('../assets/flags/Croatia.png')} style={styles.flagImage} resizeMode="contain" />
+            <Pressable onPress={() => handleFlagPress('italy')} accessibilityLabel="Switch to Italian">
+              <Image source={require('../assets/flags/Italy.png')} style={styles.flagImage} resizeMode="contain" />
+            </Pressable>
+            <Pressable onPress={() => handleFlagPress('greece')} accessibilityLabel="Switch to Greek">
+              <Image source={require('../assets/flags/Greece.png')} style={styles.flagImage} resizeMode="contain" />
+            </Pressable>
+            <Pressable onPress={() => handleFlagPress('croatia')} accessibilityLabel="Switch to Croatian">
+              <Image source={require('../assets/flags/Croatia.png')} style={styles.flagImage} resizeMode="contain" />
+            </Pressable>
           </View>
           <View style={styles.flagsRow}>
-            <Image source={require('../assets/flags/Albania.png')} style={styles.flagImage} resizeMode="contain" />
-            <Image source={require('../assets/flags/MonteNegro.png')} style={styles.flagImage} resizeMode="contain" />
-            <Pressable onPress={onSerbiaFlagPress} accessibilityLabel="Open CAD Solutions on map">
+            <Pressable onPress={() => handleFlagPress('albania')} accessibilityLabel="Switch to Albanian">
+              <Image source={require('../assets/flags/Albania.png')} style={styles.flagImage} resizeMode="contain" />
+            </Pressable>
+            <Pressable onPress={() => handleFlagPress('montenegro')} accessibilityLabel="Switch to Serbian">
+              <Image source={require('../assets/flags/MonteNegro.png')} style={styles.flagImage} resizeMode="contain" />
+            </Pressable>
+            <Pressable onPress={() => { handleFlagPress('serbia'); onSerbiaFlagPress(); }} accessibilityLabel="Open CAD Solutions on map">
               <Image source={require('../assets/flags/Serbia.png')} style={styles.flagImage} resizeMode="contain" />
             </Pressable>
           </View>

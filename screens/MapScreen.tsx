@@ -4,6 +4,7 @@ import MapView, { Marker, PROVIDER_GOOGLE, Region } from 'react-native-maps';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { MarkerPoint } from './types';
 import { APIDataReader } from '../APIDataReader';
+import { useLanguage } from '../context/LanguageContext';
 
 type MapTypeOption = 'standard' | 'satellite' | 'hybrid' | 'terrain';
 
@@ -191,6 +192,7 @@ function calculateBoundingRegion(markers: { latitude: number; longitude: number 
 }
 
 export default function MapScreen({ markerPoint }: MapScreenProps) {
+  const { t } = useLanguage();
   const mapRef = useRef<MapView>(null);
   const currentRegion = useRef<Region>(DEFAULT_REGION);
   const hasInitialRenderRun = useRef(false);

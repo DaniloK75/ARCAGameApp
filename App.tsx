@@ -11,6 +11,7 @@ import MapTabScreen from './screens/MapScreen';
 import SocialTabScreen from './screens/SocialScreen';
 import JournalTabScreen from './screens/JournalScreen';
 import StatisticsTabScreen from './screens/StatisticsScreen';
+import { LanguageProvider, useLanguage } from './context/LanguageContext';
 
 const Tab = createBottomTabNavigator();
 type RootTabParamList = {
@@ -418,7 +419,8 @@ function StatisticsScreen() {
   );
 }
 
-export default function App() {
+function AppNavigator() {
+  const { t } = useLanguage();
   const [markerPoint, setMarkerPoint] = useState<MarkerPoint>(ARCA_POINT);
 
   const handleSerbiaFlagPress = () => {
@@ -439,6 +441,7 @@ export default function App() {
         <Tab.Screen
           name="Dashboard"
           options={{
+            title: t('dashboard'),
             tabBarIcon: ({ color, size, focused }) => (
               <Ionicons
                 name={focused ? 'book' : 'book-outline'}
@@ -454,6 +457,7 @@ export default function App() {
           name="Statistics"
           component={StatisticsTabScreen}
           options={{
+            title: t('statistics'),
             tabBarIcon: ({ color, size, focused }) => (
               <Ionicons
                 name={focused ? 'stats-chart' : 'stats-chart-outline'}
@@ -466,6 +470,7 @@ export default function App() {
         <Tab.Screen
           name="Map"
           options={{
+            title: t('map'),
             tabBarIcon: ({ color, size, focused }) => (
               <Ionicons
                 name={focused ? 'globe' : 'globe-outline'}
@@ -481,6 +486,7 @@ export default function App() {
           name="Journal"
           component={JournalTabScreen}
           options={{
+            title: t('journal'),
             tabBarIcon: ({ color, size, focused }) => (
               <Ionicons
                 name={focused ? 'journal' : 'journal-outline'}
@@ -494,6 +500,7 @@ export default function App() {
           name="Social"
           component={SocialTabScreen}
           options={{
+            title: t('social'),
             tabBarIcon: ({ color, size, focused }) => (
               <Ionicons
                 name={focused ? 'people' : 'people-outline'}
@@ -506,6 +513,14 @@ export default function App() {
       </Tab.Navigator>
       <StatusBar style="auto" />
     </NavigationContainer>
+  );
+}
+
+export default function App() {
+  return (
+    <LanguageProvider>
+      <AppNavigator />
+    </LanguageProvider>
   );
 }
 

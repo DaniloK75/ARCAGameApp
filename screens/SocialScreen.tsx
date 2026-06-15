@@ -11,6 +11,7 @@ import {
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { WebView } from 'react-native-webview';
 import { APIDataReader } from '../APIDataReader';
+import { useLanguage } from '../context/LanguageContext';
 
 type InstagramMedia = {
   id: string;
@@ -63,11 +64,12 @@ const FIRE_PREVENTION_LINKS = [
 ];
 
 export default function SocialScreen() {
+  const { t } = useLanguage();
   const instagramProfileUrl = 'https://www.instagram.com/arca_interregproject/';
 
   return (
     <View style={styles.socialContainer}>
-      <Text style={styles.socialTitle}>Social and learning hub</Text>
+      <Text style={styles.socialTitle}>{t('socialTitle')}</Text>
       <Text style={styles.socialDescription}>
         Connect with the ARCA community and share your observations and experiences.
         Improve your knowledge on the latest developments concerning active prevention
@@ -83,7 +85,7 @@ export default function SocialScreen() {
             <Ionicons name="logo-instagram" size={28} color="#ffffff" />
             <View style={styles.instagramProfileButtonText}>
               <Text style={styles.instagramProfileButtonTitle}>@arca_interregproject</Text>
-              <Text style={styles.instagramProfileButtonSub}>View profile on Instagram</Text>
+              <Text style={styles.instagramProfileButtonSub}>{t('viewProfileInstagram')}</Text>
             </View>
             <Ionicons name="open-outline" size={18} color="rgba(255,255,255,0.8)" />
           </Pressable>
@@ -94,7 +96,7 @@ export default function SocialScreen() {
           contentContainerStyle={styles.linksContent}
           showsVerticalScrollIndicator={false}
         >
-          <Text style={styles.linksSectionTitle}>🌲 Forest Fire Prevention Resources</Text>
+          <Text style={styles.linksSectionTitle}>{t('forestFireResources')}</Text>
           {FIRE_PREVENTION_LINKS.map((link) => (
             <Pressable
               key={link.url}
